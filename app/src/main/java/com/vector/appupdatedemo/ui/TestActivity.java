@@ -1,5 +1,6 @@
 package com.vector.appupdatedemo.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.vector.appupdatedemo.R;
 import com.vector.appupdatedemo.http.OkGoUpdateHttpUtil;
 import com.vector.appupdatedemo.util.CProgressDialogUtils;
@@ -24,6 +26,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import rx.functions.Action1;
 
 /**
  * ================================================
@@ -42,7 +46,19 @@ public class TestActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        diyUpdate();
+        requestStoragePermission();
+    }
+
+    /** 请求文件读写权限，这儿需要这个权限，否则6.0的会无法使用*/
+    private void requestStoragePermission() {
+        new RxPermissions(this)
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        diyUpdate();
+                    }
+                });
     }
 
     private void diyUpdate() {
