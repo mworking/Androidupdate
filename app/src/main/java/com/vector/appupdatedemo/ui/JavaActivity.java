@@ -12,10 +12,8 @@ import android.widget.Toast;
 
 import com.vector.appupdatedemo.R;
 import com.vector.appupdatedemo.http.OkGoUpdateHttpUtil;
-import com.vector.appupdatedemo.http.UpdateAppHttpUtil;
 import com.vector.appupdatedemo.util.CProgressDialogUtils;
 import com.vector.appupdatedemo.util.HProgressDialogUtils;
-import com.vector.update_app.SilenceUpdateCallback;
 import com.vector.update_app.UpdateAppBean;
 import com.vector.update_app.UpdateAppManager;
 import com.vector.update_app.UpdateCallback;
@@ -54,18 +52,18 @@ public class JavaActivity extends AppCompatActivity {
      *
      * @param view
      */
-    public void updateApp(View view) {
-        new UpdateAppManager
-                .Builder()
-                //当前Activity
-                .setActivity(this)
-                //更新地址
-                .setUpdateUrl(mUpdateUrl)
-                //实现httpManager接口的对象
-                .setHttpManager(new UpdateAppHttpUtil())
-                .build()
-                .update();
-    }
+//    public void updateApp(View view) {
+//        new UpdateAppManager
+//                .Builder()
+//                //当前Activity
+//                .setActivity(this)
+//                //更新地址
+//                .setUpdateUrl(mUpdateUrl)
+//                //实现httpManager接口的对象
+//                .setHttpManager(new UpdateAppHttpUtil())
+//                .build()
+//                .update();
+//    }
 
     /**
      * 自定义接口协议
@@ -285,18 +283,6 @@ public class JavaActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * 自定义接口协议+自定义对话框+显示进度对话框
-     *
-     * @param view
-     */
-    public void updateDiy3(View view) {
-//        显示下载进度
-        isShowDownloadProgress = true;
-        diyUpdate();
-    }
-
-
     private void diyUpdate() {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath();
 
@@ -407,67 +393,61 @@ public class JavaActivity extends AppCompatActivity {
                 });
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * 自定义接口协议+自定义对话框+显示进度对话框
+     *
+     * @param view
+     */
+    public void updateDiy3(View view) {
+//        显示下载进度
+        isShowDownloadProgress = true;
+        diyUpdate();
+    }
 
     /**
      * 静默下载，下载完才弹出升级界面
      *
      * @param view
      */
-    public void silenceUpdateApp(View view) {
-        new UpdateAppManager
-                .Builder()
-                //当前Activity
-                .setActivity(this)
-                //更新地址
-                .setUpdateUrl(mUpdateUrl)
-                //实现httpManager接口的对象
-                .setHttpManager(new UpdateAppHttpUtil())
-                //只有wifi下进行，静默下载(只对静默下载有效)
-                .setOnlyWifi()
-                .build()
-                .silenceUpdate();
-    }
+//    public void silenceUpdateApp(View view) {
+//        new UpdateAppManager
+//                .Builder()
+//                //当前Activity
+//                .setActivity(this)
+//                //更新地址
+//                .setUpdateUrl(mUpdateUrl)
+//                //实现httpManager接口的对象
+//                .setHttpManager(new UpdateAppHttpUtil())
+//                //只有wifi下进行，静默下载(只对静默下载有效)
+//                .setOnlyWifi()
+//                .build()
+//                .silenceUpdate();
+//    }
 
     /**
      * 静默下载，并且自定义对话框
      *
      * @param view
      */
-    public void silenceUpdateAppAndDiyDialog(View view) {
-        new UpdateAppManager
-                .Builder()
-                //当前Activity
-                .setActivity(this)
-                //更新地址
-                .setUpdateUrl(mUpdateUrl)
-                //实现httpManager接口的对象
-                .setHttpManager(new UpdateAppHttpUtil())
-                //只有wifi下进行，静默下载(只对静默下载有效)
-                .setOnlyWifi()
-                .build()
-                .checkNewApp(new SilenceUpdateCallback() {
-                    @Override
-                    protected void showDialog(UpdateAppBean updateApp, UpdateAppManager updateAppManager, File appFile) {
-                        showSilenceDiyDialog(updateApp, appFile);
-                    }
-                });
-    }
+//    public void silenceUpdateAppAndDiyDialog(View view) {
+//        new UpdateAppManager
+//                .Builder()
+//                //当前Activity
+//                .setActivity(this)
+//                //更新地址
+//                .setUpdateUrl(mUpdateUrl)
+//                //实现httpManager接口的对象
+//                .setHttpManager(new UpdateAppHttpUtil())
+//                //只有wifi下进行，静默下载(只对静默下载有效)
+//                .setOnlyWifi()
+//                .build()
+//                .checkNewApp(new SilenceUpdateCallback() {
+//                    @Override
+//                    protected void showDialog(UpdateAppBean updateApp, UpdateAppManager updateAppManager, File appFile) {
+//                        showSilenceDiyDialog(updateApp, appFile);
+//                    }
+//                });
+//    }
 
     /**
      * 静默下载自定义对话框

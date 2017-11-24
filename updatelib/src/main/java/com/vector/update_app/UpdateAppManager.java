@@ -215,7 +215,7 @@ public class UpdateAppManager {
         }
 
         //拼接参数
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
 
         params.put("appKey", mAppKey);
         String versionName = AppUpdateUtils.getVersionName(mActivity);
