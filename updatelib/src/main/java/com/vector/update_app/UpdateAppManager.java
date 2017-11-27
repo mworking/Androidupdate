@@ -97,66 +97,6 @@ public class UpdateAppManager {
     }
 
     /**
-     * 跳转到更新页面
-     */
-//    public void showDialog() {
-//        if (verify()) return;
-//
-//
-//        if (mActivity != null && !mActivity.isFinishing()) {
-//            Intent updateIntent = new Intent(mActivity, DialogActivity.class);
-//            fillUpdateAppData();
-//            updateIntent.putExtra(INTENT_KEY, mUpdateApp);
-//            if (mThemeColor != 0) {
-//                updateIntent.putExtra(THEME_KEY, mThemeColor);
-//            }
-//
-//            if (mTopPic != 0) {
-//                updateIntent.putExtra(TOP_IMAGE_KEY, mTopPic);
-//            }
-//            mActivity.startActivity(updateIntent);
-//        }
-//
-//    }
-
-    /**
-     * @return 新版本信息
-     */
-    public UpdateAppBean fillUpdateAppData() {
-        if (mUpdateApp != null) {
-            mUpdateApp.setTargetPath(mTargetPath);
-            mUpdateApp.setHttpManager(mHttpManager);
-            mUpdateApp.setHideDialog(mHideDialog);
-            mUpdateApp.showIgnoreVersion(mShowIgnoreVersion);
-            mUpdateApp.dismissNotificationProgress(mDismissNotificationProgress);
-            mUpdateApp.setOnlyWifi(mOnlyWifi);
-            return mUpdateApp;
-        }
-
-        return null;
-    }
-
-    /**
-     * 验证
-     * */
-    private boolean verify() {
-        //版本忽略
-        if (mShowIgnoreVersion && AppUpdateUtils.isNeedIgnore(mActivity, mUpdateApp.getNewVersion())) {
-            return true;
-        }
-
-//        String preSuffix = "/storage/emulated";
-
-        if (TextUtils.isEmpty(mTargetPath)
-//                || !mTargetPath.startsWith(preSuffix)
-                ) {
-            Log.e(TAG, "下载路径错误:" + mTargetPath);
-            return true;
-        }
-        return mUpdateApp == null;
-    }
-
-    /**
      * 自定义更新dialog
      */
     public void showDialogFragment() {
@@ -182,6 +122,43 @@ public class UpdateAppManager {
             updateDialogFragment.show(((FragmentActivity) mActivity).getSupportFragmentManager(), "dialog");
         }
 
+    }
+
+    /**
+     * 验证
+     * */
+    private boolean verify() {
+        //版本忽略
+        if (mShowIgnoreVersion && AppUpdateUtils.isNeedIgnore(mActivity, mUpdateApp.getNewVersion())) {
+            return true;
+        }
+
+//        String preSuffix = "/storage/emulated";
+
+        if (TextUtils.isEmpty(mTargetPath)
+//                || !mTargetPath.startsWith(preSuffix)
+                ) {
+            Log.e(TAG, "下载路径错误:" + mTargetPath);
+            return true;
+        }
+        return mUpdateApp == null;
+    }
+
+    /**
+     * @return 新版本信息
+     */
+    public UpdateAppBean fillUpdateAppData() {
+        if (mUpdateApp != null) {
+            mUpdateApp.setTargetPath(mTargetPath);
+            mUpdateApp.setHttpManager(mHttpManager);
+            mUpdateApp.setHideDialog(mHideDialog);
+            mUpdateApp.showIgnoreVersion(mShowIgnoreVersion);
+            mUpdateApp.dismissNotificationProgress(mDismissNotificationProgress);
+            mUpdateApp.setOnlyWifi(mOnlyWifi);
+            return mUpdateApp;
+        }
+
+        return null;
     }
 
     /**
