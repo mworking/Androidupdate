@@ -1,3 +1,7 @@
+### 项目介绍
+    1. 使用okgo操作网络请求
+    2. 使用Rxpermission操作权限请求
+
 ### 类名介绍
     1. 所有的网络请求类 	OkGoUpdateHttpUtil
     2. 所有的接口回调类	HttpManager

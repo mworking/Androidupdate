@@ -31,7 +31,7 @@ import rx.functions.Action1;
 
 /**
  * ================================================
- * Author：gejianfeng
+ * Author：himici
  * version：1.0
  * create time：2017/11/24
  * description：
@@ -91,7 +91,7 @@ public class TestActivity extends Activity{
 //                .setAppKey("ab55ce55Ac4bcP408cPb8c1Aaeac179c5f6f")
 
                 .build()
-                //检测是否有新版本
+                //检测是否有新版本 这儿覆写了UpdateCallback中的方法，也就是覆盖了
                 .checkNewApp(new UpdateCallback() {
                     /**
                      * 解析json,自定义协议
