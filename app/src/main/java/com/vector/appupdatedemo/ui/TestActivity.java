@@ -191,7 +191,7 @@ public class TestActivity extends Activity{
         if (!TextUtils.isEmpty(updateLog)) {
             msg += updateLog;
         }
-
+        //系统自带对话框
         new AlertDialog.Builder(this)
                 .setTitle(String.format("是否升级到%s版本？", updateApp.getNewVersion()))
                 .setMessage(msg)
