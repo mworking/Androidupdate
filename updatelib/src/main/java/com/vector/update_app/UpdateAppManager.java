@@ -21,7 +21,6 @@ import java.util.Map;
  * 版本更新管理器
  */
 public class UpdateAppManager {
-    private final static String UPDATE_APP_KEY = "UPDATE_APP_KEY";
     private Map<String, String> mParams;
     private Activity mActivity;
     private HttpManager mHttpManager;
@@ -36,7 +35,6 @@ public class UpdateAppManager {
         mActivity = builder.getActivity();
         mHttpManager = builder.getHttpManager();
         mUpdateUrl = builder.getUpdateUrl();
-        mAppKey = builder.getAppKey();
         mTargetPath = builder.getTargetPath();
         isPost = builder.isPost();
         mParams = builder.getParams();
@@ -179,14 +177,6 @@ public class UpdateAppManager {
         //必须有
         private String mUpdateUrl;
 
-        //1，设置按钮，进度条的颜色
-        private int mThemeColor = 0;
-        //2，顶部的图片
-        private
-        @DrawableRes
-        int mTopPic = 0;
-        //3,唯一的appkey
-        private String mAppKey;
         //4,apk的下载路径
         private String mTargetPath;
         //5,是否是post请求，默认是get
@@ -239,20 +229,6 @@ public class UpdateAppManager {
             return this;
         }
 
-        public String getAppKey() {
-            return mAppKey;
-        }
-
-        /**
-         * 唯一的appkey
-         *
-         * @param appKey 唯一的appkey
-         * @return Builder
-         */
-        public Builder setAppKey(String appKey) {
-            mAppKey = appKey;
-            return this;
-        }
 
         public Activity getActivity() {
             return mActivity;
@@ -299,18 +275,6 @@ public class UpdateAppManager {
             return this;
         }
 
-        public int getThemeColor() {
-            return mThemeColor;
-        }
-
-
-
-        public int getTopPic() {
-            return mTopPic;
-        }
-
-
-
         /**
          * @return 生成app管理器
          */
@@ -335,12 +299,6 @@ public class UpdateAppManager {
                     path = getActivity().getCacheDir().getAbsolutePath();
                 }
                 setTargetPath(path);
-            }
-            if (TextUtils.isEmpty(getAppKey())) {
-                String appKey = AppUpdateUtils.getManifestString(getActivity(), UPDATE_APP_KEY);
-                if (!TextUtils.isEmpty(appKey)) {
-                    setAppKey(appKey);
-                }
             }
             return new UpdateAppManager(this);
         }
