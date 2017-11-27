@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -25,7 +24,6 @@ public class UpdateAppManager {
     private Activity mActivity;
     private HttpManager mHttpManager;
     private String mUpdateUrl;
-    private String mAppKey;
     private UpdateAppBean mUpdateApp;
     private String mTargetPath;
     private boolean isPost;
@@ -61,7 +59,6 @@ public class UpdateAppManager {
         //拼接参数
         Map<String, String> params = new HashMap<>();
 
-        params.put("appKey", mAppKey);
         String versionName = AppUpdateUtils.getVersionName(mActivity);
         if (versionName.endsWith("-debug")) {
             versionName = versionName.substring(0, versionName.lastIndexOf('-'));
