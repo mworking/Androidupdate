@@ -85,7 +85,7 @@ public class TestActivity extends Activity{
                 .setPost(false)
                 //添加自定义参数，默认version=1.0.0（app的versionName）；apkKey=唯一表示（在AndroidManifest.xml配置）
                 .setParams(params)
-                //设置apk下砸路径，默认是在下载到sd卡下/Download/1.0.0/test.apk
+                //设置apk下载路径，默认是在下载到sd卡下/Download/1.0.0/test.apk
                 .setTargetPath(path)
                 //设置appKey，默认从AndroidManifest.xml获取，如果，使用自定义参数，则此项无效
 //                .setAppKey("ab55ce55Ac4bcP408cPb8c1Aaeac179c5f6f")
