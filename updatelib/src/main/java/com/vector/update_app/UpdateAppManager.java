@@ -162,21 +162,6 @@ public class UpdateAppManager {
     }
 
     /**
-     * 静默更新
-     */
-    public void silenceUpdate() {
-        checkNewApp(new SilenceUpdateCallback());
-    }
-
-    /**
-     * 最简方式
-     */
-
-    public void update() {
-        checkNewApp(new UpdateCallback());
-    }
-
-    /**
      * 检测是否有新版本
      *
      * @param callback 更新回调
