@@ -70,7 +70,7 @@ public class DownloadService extends Service {
     }
 
     /**
-     * 创建通知
+     *  初始化通知栏，创建通知
      */
     private void setUpNotification() {
         if (mDismissNotificationProgress) {

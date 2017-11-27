@@ -136,7 +136,9 @@ public class UpdateAppManager {
         return null;
     }
 
-
+    /**
+     * 验证
+     * */
     private boolean verify() {
         //版本忽略
         if (mShowIgnoreVersion && AppUpdateUtils.isNeedIgnore(mActivity, mUpdateApp.getNewVersion())) {
@@ -155,7 +157,7 @@ public class UpdateAppManager {
     }
 
     /**
-     * 跳转到更新页面
+     * 自定义更新dialog
      */
     public void showDialogFragment() {
 
@@ -323,6 +325,7 @@ public class UpdateAppManager {
             callback.noNewApp();
         }
     }
+
 
     public static class Builder {
         //必须有
