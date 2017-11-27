@@ -2,17 +2,13 @@ package com.vector.update_app;
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.vector.update_app.service.DownloadService;
@@ -25,9 +21,6 @@ import java.util.Map;
  * 版本更新管理器
  */
 public class UpdateAppManager {
-    final static String INTENT_KEY = "update_dialog_values";
-    final static String THEME_KEY = "theme_color";
-    final static String TOP_IMAGE_KEY = "top_resId";
     private final static String UPDATE_APP_KEY = "UPDATE_APP_KEY";
     private static final String TAG = UpdateAppManager.class.getSimpleName();
     private Map<String, String> mParams;
@@ -42,10 +35,6 @@ public class UpdateAppManager {
     private UpdateAppBean mUpdateApp;
     private String mTargetPath;
     private boolean isPost;
-    private boolean mHideDialog;
-    private boolean mShowIgnoreVersion;
-    private boolean mDismissNotificationProgress;
-    private boolean mOnlyWifi;
     //自定义参数
 
     private UpdateAppManager(Builder builder) {
@@ -60,76 +49,8 @@ public class UpdateAppManager {
         mTargetPath = builder.getTargetPath();
         isPost = builder.isPost();
         mParams = builder.getParams();
-        mHideDialog = builder.isHideDialog();
-        mShowIgnoreVersion = builder.isShowIgnoreVersion();
-        mDismissNotificationProgress = builder.isDismissNotificationProgress();
-        mOnlyWifi = builder.isOnlyWifi();
     }
 
-    /**
-     * 自定义更新dialog
-     */
-    public void showDialogFragment() {
-
-        //校验
-        if (verify()) return;
-
-        if (mActivity != null && !mActivity.isFinishing()) {
-            Bundle bundle = new Bundle();
-            //添加信息，
-            fillUpdateAppData();
-            bundle.putSerializable(INTENT_KEY, mUpdateApp);
-            if (mThemeColor != 0) {
-                bundle.putInt(THEME_KEY, mThemeColor);
-            }
-
-            if (mTopPic != 0) {
-                bundle.putInt(TOP_IMAGE_KEY, mTopPic);
-            }
-
-            UpdateDialogFragment updateDialogFragment = new UpdateDialogFragment();
-            updateDialogFragment.setArguments(bundle);
-            updateDialogFragment.show(((FragmentActivity) mActivity).getSupportFragmentManager(), "dialog");
-        }
-
-    }
-
-    /**
-     * 验证
-     * */
-    private boolean verify() {
-        //版本忽略
-        if (mShowIgnoreVersion && AppUpdateUtils.isNeedIgnore(mActivity, mUpdateApp.getNewVersion())) {
-            return true;
-        }
-
-//        String preSuffix = "/storage/emulated";
-
-        if (TextUtils.isEmpty(mTargetPath)
-//                || !mTargetPath.startsWith(preSuffix)
-                ) {
-            Log.e(TAG, "下载路径错误:" + mTargetPath);
-            return true;
-        }
-        return mUpdateApp == null;
-    }
-
-    /**
-     * @return 新版本信息
-     */
-    public UpdateAppBean fillUpdateAppData() {
-        if (mUpdateApp != null) {
-            mUpdateApp.setTargetPath(mTargetPath);
-            mUpdateApp.setHttpManager(mHttpManager);
-            mUpdateApp.setHideDialog(mHideDialog);
-            mUpdateApp.showIgnoreVersion(mShowIgnoreVersion);
-            mUpdateApp.dismissNotificationProgress(mDismissNotificationProgress);
-            mUpdateApp.setOnlyWifi(mOnlyWifi);
-            return mUpdateApp;
-        }
-
-        return null;
-    }
 
     /**
      * 检测是否有新版本
@@ -142,7 +63,7 @@ public class UpdateAppManager {
         }
         callback.onBefore();
 
-        if (DownloadService.isRunning || UpdateDialogFragment.isShow) {
+        if (DownloadService.isRunning) {
             callback.onAfter();
             Toast.makeText(mActivity, "app正在更新", Toast.LENGTH_SHORT).show();
             return;
@@ -281,11 +202,6 @@ public class UpdateAppManager {
         private boolean isPost;
         //6,自定义参数
         private Map<String, String> params;
-        //7,是否隐藏对话框下载进度条
-        private boolean mHideDialog;
-        private boolean mShowIgnoreVersion;
-        private boolean dismissNotificationProgress;
-        private boolean mOnlyWifi;
 
         public Map<String, String> getParams() {
             return params;
@@ -396,31 +312,13 @@ public class UpdateAppManager {
             return mThemeColor;
         }
 
-        /**
-         * 设置按钮，进度条的颜色
-         *
-         * @param themeColor 设置按钮，进度条的颜色
-         * @return Builder
-         */
-        public Builder setThemeColor(int themeColor) {
-            mThemeColor = themeColor;
-            return this;
-        }
+
 
         public int getTopPic() {
             return mTopPic;
         }
 
-        /**
-         * 顶部的图片
-         *
-         * @param topPic 顶部的图片
-         * @return Builder
-         */
-        public Builder setTopPic(int topPic) {
-            mTopPic = topPic;
-            return this;
-        }
+
 
         /**
          * @return 生成app管理器
@@ -454,61 +352,6 @@ public class UpdateAppManager {
                 }
             }
             return new UpdateAppManager(this);
-        }
-
-        /**
-         * 是否隐藏对话框下载进度条
-         *
-         * @param b 是否隐藏对话框下载进度条
-         * @return Builder
-         */
-        public Builder hideDialogOnDownloading(boolean b) {
-            mHideDialog = b;
-            return this;
-        }
-
-        /**
-         * @return 是否影藏对话框
-         */
-        public boolean isHideDialog() {
-            return mHideDialog;
-        }
-
-        /**
-         * 显示忽略版本
-         *
-         * @return 是否忽略版本
-         */
-        public Builder showIgnoreVersion() {
-            mShowIgnoreVersion = true;
-            return this;
-        }
-
-        public boolean isShowIgnoreVersion() {
-            return mShowIgnoreVersion;
-        }
-
-        /**
-         * 不显示通知栏进度条
-         *
-         * @return 是否显示进度条
-         */
-        public Builder dismissNotificationProgress() {
-            dismissNotificationProgress = true;
-            return this;
-        }
-
-        public boolean isDismissNotificationProgress() {
-            return dismissNotificationProgress;
-        }
-
-        public Builder setOnlyWifi() {
-            mOnlyWifi = true;
-            return this;
-        }
-
-        public boolean isOnlyWifi() {
-            return mOnlyWifi;
         }
     }
 
