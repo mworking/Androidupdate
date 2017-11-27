@@ -22,15 +22,10 @@ import java.util.Map;
  */
 public class UpdateAppManager {
     private final static String UPDATE_APP_KEY = "UPDATE_APP_KEY";
-    private static final String TAG = UpdateAppManager.class.getSimpleName();
     private Map<String, String> mParams;
     private Activity mActivity;
     private HttpManager mHttpManager;
     private String mUpdateUrl;
-    private int mThemeColor;
-    private
-    @DrawableRes
-    int mTopPic;
     private String mAppKey;
     private UpdateAppBean mUpdateApp;
     private String mTargetPath;
@@ -41,10 +36,6 @@ public class UpdateAppManager {
         mActivity = builder.getActivity();
         mHttpManager = builder.getHttpManager();
         mUpdateUrl = builder.getUpdateUrl();
-
-        mThemeColor = builder.getThemeColor();
-        mTopPic = builder.getTopPic();
-
         mAppKey = builder.getAppKey();
         mTargetPath = builder.getTargetPath();
         isPost = builder.isPost();
